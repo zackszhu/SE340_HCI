@@ -90,6 +90,7 @@ public class ModelData {
         {
             points2D.Add(new Vector2(ReadFloat(sr), ReadFloat(sr)));
         }
+        fs.Close();
     }
 
 
@@ -125,23 +126,29 @@ public class PatchCreator : MonoBehaviour {
 
     private void CreatePatch(List<Vector3> verticles) {
         //front 
-        var patch = Instantiate(PatchSample);
+        var patch = Instantiate(PatchSample, transform.position, Quaternion.identity) as GameObject;
 
         patch.transform.parent = gameObject.transform;
+        patch.transform.localScale = Vector3.one;
+        patch.transform.localRotation = Quaternion.identity;
 
-        var front = Instantiate(meshSample);
+        var front = Instantiate(meshSample, transform.position, Quaternion.identity) as GameObject;
         Debug.Log(verticles.Count);
 
         front.GetComponent<MyMesh>().SetMesh(verticles, true);
         front.name = "front";
         front.tag = "front";
         front.transform.parent = patch.transform;
+        front.transform.localScale = Vector3.one;
+        front.transform.localRotation = Quaternion.identity;
 
-        var back = Instantiate(meshSample);
+        var back = Instantiate(meshSample, transform.position, Quaternion.identity) as GameObject;
         back.GetComponent<MyMesh>().SetMesh(verticles, false);
         back.name = "back";
         back.tag = "back";
         back.transform.parent = patch.transform;
+        back.transform.localScale = Vector3.one;
+        back.transform.localRotation = Quaternion.identity;
     }
 
 
@@ -180,9 +187,9 @@ public class PatchCreator : MonoBehaviour {
     }
 
 
-    void Start() {
-        CreatePatches();
-    }
+//    void Start() {
+//        CreatePatches();
+//    }
 
     // Update is called once per frame
     void Update() {

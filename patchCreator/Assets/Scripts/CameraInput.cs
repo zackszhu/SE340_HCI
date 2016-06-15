@@ -9,31 +9,27 @@ public class CameraInput : MonoBehaviour {
     #endregion
 
     #region PUBLIC_VARIABLES
-    public float MoveSpeed;
-    public Transform TargetGameObject;
-
     public float ZoomSpeed;
+    public GameObject Model;
     #endregion
 
-    // Use this for initialization
-    void Awake() {
-        #region PRIVATE_INIT
-        _distance = 10f;
-        _fov = 60f;
+    public void MyAwake() {
         _camera = GetComponent<Camera>();
-        #endregion
-        transform.position = new Vector3(0, _distance, 0);
-        transform.LookAt(TargetGameObject);
+        StartCoroutine(MyUpdate());
     }
 
-    // Update is called once per frame
-    void Update() {
-        SetZoom();
+    IEnumerator MyUpdate() {
+        while (true) {
+            SetZoom();
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     private void SetZoom() {
         if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
-            _camera.fieldOfView = _camera.fieldOfView - Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed;
+            // _camera.fieldOfView = _camera.fieldOfView - Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed;
+            Model.GetComponent<ModelScrollLayout>().Selected.transform.position -= new Vector3(0, 0, ZoomSpeed) * Mathf.Sign(Input.GetAxis("Mouse ScrollWheel"));
+            //Model.position -= new Vector3(0, 0, ZoomSpeed);
         }
     }
 }

@@ -16,10 +16,12 @@ public class CameraEnterMovement : MonoBehaviour {
 
     IEnumerator Entering() {
         _timeStartLerping = Time.time;
+        var position = transform.position;
+        var rotation = TitlePage.transform.rotation;
         while (true) {
             var rate = (Time.time - _timeStartLerping)/TransitionDuration;
-            transform.position = Vector3.Lerp(transform.position, EndPosition, rate);
-            TitlePage.transform.rotation = Quaternion.Lerp(TitlePage.transform.rotation, Quaternion.Euler(EndRotation), rate);
+            transform.position = Vector3.Lerp(position, EndPosition, rate);
+            TitlePage.transform.rotation = Quaternion.Lerp(rotation, Quaternion.Euler(EndRotation), rate);
             if (rate > 1) {
                 yield break;
             }

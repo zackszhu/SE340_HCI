@@ -4,4 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/uGUIColorPicker-free/Demo/Demo-Index.unity
+  - enabled: 1
+    path: Assets/uGUIColorPicker-free/Demo/Demo-HowTo.unity
+  - enabled: 1
+    path: Assets/uGUIColorPicker-free/Demo/Demo-PresetSample.unity
+  - enabled: 1
+    path: Assets/uGUIColorPicker-free/Demo/Demo-Animation.unity
+  - enabled: 1
+    path: Assets/uGUIColorPicker-free/Demo/Demo-WorldUI.unity
