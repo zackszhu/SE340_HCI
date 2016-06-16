@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ColorPick : MonoBehaviour {
     public float MoveDuration;
     public GameObject ColorPicker;
+    public GameObject ChildButton;
 
     public void ScaleUp() {
         StartCoroutine(Scaling(ColorPicker.GetComponent<RectTransform>().sizeDelta, true));
@@ -26,6 +27,9 @@ public class ColorPick : MonoBehaviour {
                 if (up) {
                     gameObject.SetActive(false);
                     ColorPicker.SetActive(true);
+                }
+                else {
+                    ChildButton.SetActive(true);
                 }
                 yield break;
             }
