@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3339796}
   - 23: {fileID: 2374076}
   - 114: {fileID: 11402042}
+  - 114: {fileID: 11452504}
   m_Layer: 0
   m_Name: MeshSample
   m_TagString: Untagged
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6f16661e7f5df4fb7bdacb1b243847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gapOffset: 0.01
+--- !u!114 &11452504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156a41e085796354680722a9209e5f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gapOffset: 0.01
