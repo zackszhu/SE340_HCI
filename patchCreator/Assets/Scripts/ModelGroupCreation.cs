@@ -10,6 +10,8 @@ public class ModelGroupCreation : MonoBehaviour {
     public List<GameObject> _allModels;
     
     void Awake() {
+
+
         _allModels = new List<GameObject>();
         _allModels.Add(new GameObject());
         _allModels.Add(new GameObject());

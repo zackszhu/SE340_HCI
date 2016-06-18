@@ -209,7 +209,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 174544009}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -260,7 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Patches: {fileID: 940796337}
-  gapOffset: 0.01
 --- !u!1 &575422982
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +352,11 @@ MonoBehaviour:
   meshSample: {fileID: 127498, guid: 6bf1dabab77b98040b4643596a924d1a, type: 2}
   PatchSample: {fileID: 154926, guid: 6baecd4e60549694b9b2b520a14a746a, type: 2}
   ModelName: fengche
+  model:
+    Points3D: []
+    Points2D: []
+    Patches: []
+    Displays: []
 --- !u!4 &940796339
 Transform:
   m_ObjectHideFlags: 0

@@ -2,30 +2,43 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Assets.Scripts;
 using UnityEditor;
 using UnityEngine.Networking;
+using Application = UnityEngine.Application;
+
+
 
 [Serializable]
-public class Patch {
+public class DisplayConfig {
+
+    // public int Id;   //材质id
+    public int Id;
+    public int Type;  //0 - null, 1-color , 2 - texture
+    public Vector3 Rgb;  //颜色
+    public string Name;  //材质文件名
+
+    public List<Vector2> Uv;
+    [NonSerialized]
+    public GameObject Object;  //对应的对象
+}
+
+
+[Serializable]
+public class Patch
+{
     public List<int> VertNum = new List<int>();
 
     //public List<int> vert2DNum = new List<int>();
-    public int[] TouchAble = new int[2]; //正反面分别能不能碰到
-    public int[] Material = new int[2];  //正反面材质是什么
+    public int[] TouchAble = new int[2]; //正反面分别能不能被着色
+    public int[] DisplayId = new int[2];  //正反面材质是什么
 }
 
-[Serializable]
-public class Display {
-    
-    public int Id;   //材质id
-    public int Type;  //0 - color, 1 - texture
-    public string Name;  //材质文件名
-    public Vector3 Rgb;  //颜色
-    public List<Vector2> Uv;
-}
+
 
 [Serializable]
 public class ModelData {
@@ -34,7 +47,8 @@ public class ModelData {
     public List<Vector3> Points3D = new List<Vector3>();  //
     public List<Vector2> Points2D = new List<Vector2>();
     public List<Patch> Patches = new List<Patch>();
-    public List<Display> Displays = new List<Display>();
+    public List<DisplayConfig> Displays = new List<DisplayConfig>();
+    //public List<DisplayConfig> Displays = new List<DisplayConfig>();
 
 
 
@@ -44,6 +58,7 @@ public class ModelData {
     private float _scale2D = 1.0f;
     private Vector2 _center2D = new Vector2(0,0);
 
+    //TODO 组装
 
 
     public ModelData() {
@@ -105,8 +120,8 @@ public class ModelData {
             bool isFront = ReadNumber(sr) > 0 ? true : false;
             if (!isFront)
                 Patches[i].VertNum.Reverse();
-            Patches[i].Material[0] = ReadNumber(sr);
-            Patches[i].Material[1] = ReadNumber(sr);
+            //Patches[i].Display[0] = ReadNumber(sr);
+            //Patches[i].Display[1] = ReadNumber(sr);
             Debug.Log("Patches" + i);
 
         }
@@ -122,7 +137,23 @@ public class ModelData {
 
     public List<Vector3> Get3DPatch(int index) {
         //resharper suggestion
-        return Patches[index].VertNum.Select(pointNum => Points3D[pointNum]).ToList();
+        var pointIds = Patches[index].VertNum;
+        var result = new List<Vector3>();
+        foreach (var t in pointIds)
+        {
+            var temp = new Vector3();
+            temp.x = Points3D[t].x;
+            temp.y = Points3D[t].y;
+            temp.z = Points3D[t].z;
+            temp = temp - _center3D;
+            temp = temp / _scale3D;
+            result.Add(temp);
+        }
+
+        return result;
+
+       // return Points3D[index];
+        //return Patches[index].VertNum.Select(pointNum => Points3D[pointNum]).ToList();
     }
 
     public List<Vector2> Get2DPatch(int index) {
@@ -182,7 +213,7 @@ public class PatchCreator : MonoBehaviour {
 
     public string ModelName;
 
-    private ModelData model;
+    public ModelData model;
 
 
 
@@ -195,7 +226,7 @@ public class PatchCreator : MonoBehaviour {
         patch.transform.localRotation = Quaternion.identity;
 
         var front = Instantiate(meshSample, transform.position, Quaternion.identity) as GameObject;
-        Debug.Log(verticles.Count);
+        //Debug.Log(verticles.Count);
 
         front.GetComponent<MyMesh>().SetMesh(verticles, true);
         front.name = "front";
@@ -214,38 +245,60 @@ public class PatchCreator : MonoBehaviour {
     }
 
 
-    public void LoadData(string filePath) {   //根据文件名载入
+    public void LoadModel(string filePath) {
+        //根据文件名载入
         FileStream fs = new FileStream(filePath, FileMode.Open);
         StreamReader sr = new StreamReader(fs);
 
-        if (filePath.EndsWith(".zzs"))
-            model = new ModelData(sr);
-        else if (filePath.EndsWith(".json"))
-            model = JsonUtility.FromJson<ModelData>(sr.ReadToEnd());
-        else if (filePath.EndsWith(".xml"))
-            model = PersistTool.Xml2Obj<ModelData>(sr.BaseStream);
+        try {
+            if (filePath.EndsWith(".zzs")) {
+                model = new ModelData(sr);
+            }
+            else if (filePath.EndsWith(".json")) {
+                model = JsonUtility.FromJson<ModelData>(sr.ReadToEnd());
+            }
+            else if (filePath.EndsWith(".xml")) {
+                model = PersistTool.Xml2Obj<ModelData>(sr.BaseStream);
+            }
+            else throw new UnityException("file format load error");
+        }
+        catch (Exception e) {
+            Debug.LogError(e.Message);
+        }
+
+        finally {
+            sr.Close();
+            fs.Close();
+        }
+
+
+
     }
 
-    public void SaveData(string filePath) {
-        
+    public void LoadModelByModelName(string modelName) {
+        LoadModel(Application.dataPath + "/Data/" + modelName+ ".json");
     }
+
+
 
 
     public void CreatePatches() {
         //Load files
-        LoadData(Application.dataPath+"/Data/"+ ModelName+"out.json");
+        //LoadModel(Application.dataPath+"/Data/"+ ModelName+".json");
 
         int Count = model.GetPatchesCount();
         //CreatePatch(model.Get3DPatch(0));
         //CreatePatch(model.Get3DPatch(0));
-        
+        model.InitCenterAndScale();
+
+
         for (int i = 0; i < Count; i++) {
             CreatePatch(model.Get3DPatch(i));
         }
 
-        model.InitCenterAndScale();
+        
 
-        SaveModel(Application.dataPath + "/Data/" + ModelName + ".json");
+        //SaveModel(Application.dataPath + "/Data/" + ModelName + ".json");
        
     }
 
@@ -253,25 +306,38 @@ public class PatchCreator : MonoBehaviour {
         this.ModelName = DataName;
     }
 
-    public void LoadModel() {
-        
-    }
 
     public void SaveModel(string filePath) {
         FileStream fs = new FileStream(filePath, FileMode.Create);
         var sw = new StreamWriter(fs);
+        Debug.Log(filePath);
 
-        if (filePath.EndsWith(".xml")) {
-            sw.Write(PersistTool.Obj2Xml(model));
+        try {
+            if (filePath.EndsWith(".xml")) {
+                sw.Write(PersistTool.Obj2Xml(model));
+            }
+            else if (filePath.EndsWith(".json")) {
+                sw.Write(JsonUtility.ToJson(model));
+            }
+            else throw new UnityException("file format load error");
         }
-
-        if (filePath.EndsWith(".json")) {
-            sw.Write(JsonUtility.ToJson(model));
-            
+        catch (Exception e) {
+            Debug.LogError(e.Message);
         }
-        sw.Close();
-        fs.Close();
+        finally {
+            sw.Close();
+            fs.Close();
+        }
         //JsonMapper.
+    }
+
+
+    public void SaveModelByModelName(string modelName, bool withTime = true) {
+
+        string path = withTime ? Application.dataPath + "/Data/" + ModelName + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".json" 
+            : Application.dataPath + "/Data/" + ModelName + ".json";
+
+        SaveModel(path);
     }
 
     void Update() {
