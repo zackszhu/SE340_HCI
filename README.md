@@ -1,6 +1,5 @@
 # SE340_HCI
 
-- 2016/5/4 根据数据生成模型代码已经完成，工程见patchCreator，每个面都是双面，坐标在法向量上有微小偏差
+- 目前完成了文档和部分源代码的push，还有模型、视频、打包的可执行文件还没push上来。
 
-- 2016/5/2 数据格式zzs, 具体约束见data/zzs.md, 样例文件见data/duizhe.zzs, data/fengche.zzs
-
+工程较大，正在陆陆续续push上来，保证能在答辩之前完成所有push。

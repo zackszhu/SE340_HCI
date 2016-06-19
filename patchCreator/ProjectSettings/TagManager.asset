@@ -6,6 +6,10 @@ TagManager:
   tags:
   - front
   - back
+  - color
+  - imageMesh
+  - imageBack
+  - button
   layers:
   - Default
   - TransparentFX

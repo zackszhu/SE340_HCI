@@ -1,14 +1,8 @@
 <ModelList>
-    <Model>
-        fengche
-    </Model>
-    <Model>
-        fengche
-    </Model>
-    <Model>
-        fengche
-    </Model>
-    <Model>
-        fengche
-    </Model>
+	<Model>cat</Model>
+    <Model>windmill</Model>
+    <Model>plane_color1</Model>
+
+    <Model father="windmill">fengche-20160618120422</Model>
+    <Model father="plane_color1">plane_color1</Model>
 </ModelList>

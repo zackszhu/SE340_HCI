@@ -28,14 +28,36 @@ public class ModelScrollLayout : MonoBehaviour {
         };
         _somewhereLeft = new Vector3(-3000, 0, 2500);
         _somewhereRight = new Vector3(3000, 0, 2500);
+        _models = new List<GameObject>();
 	}
 
+    public GameObject GetSelectModel() {
+        return _models[_cursor + 3];
+    }
+
+
     public void InitLayout(List<GameObject> models) {
+        foreach (var model in _models) {
+            Destroy(model);
+        }
         _models = models;
+        _cursor = 0;
+        HandleLayout();
+    }
+
+    public void InitSubLayout(List<GameObject> models) {
+        foreach (var model in _models) {
+            model.transform.position = _somewhereLeft;
+        }
+        _models = models;
+        _cursor = 0;
         HandleLayout();
     }
 
     private void HandleLayout(bool animated = false) {
+        if (_models.Count <= 6) {
+            return;
+        }
         _models[_cursor + 3].GetComponent<RotationInput>().enabled = true;
         Selected = _models[_cursor + 3];
         for (int i = 0; i < _models.Count; i++) {
@@ -98,5 +120,13 @@ public class ModelScrollLayout : MonoBehaviour {
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void LoadMore() {
+        GetComponent<ModelGroupCreation>().GetSubModels(_models[_cursor + 3].GetComponent<PatchCreator>().ModelName);
+    }
+
+    public void LoadBack() {
+        InitLayout(GetComponent<ModelGroupCreation>()._allModels);
     }
 }

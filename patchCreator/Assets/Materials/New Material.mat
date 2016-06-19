@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 10704, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 6db13cdbfd6219048bea30f42c1a636f, type: 3}
+          m_Texture: {fileID: 2800000, guid: 68d967e6844f2a54690cf7399adec517, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: c89cd1fee94f262468acef2f9db47626, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -87,16 +87,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _SpecGlossMap
+          name: _Texture2
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 6db13cdbfd6219048bea30f42c1a636f, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Texture2
+          name: _SpecGlossMap
         second:
-          m_Texture: {fileID: 2800000, guid: 6db13cdbfd6219048bea30f42c1a636f, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -127,7 +127,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.5
+        second: 0.452
       data:
         first:
           name: _BumpScale
@@ -154,16 +154,16 @@ Material:
         second: 0
       data:
         first:
-          name: _Sharpness
-        second: 10
-      data:
-        first:
           name: _RimPower
         second: 3
       data:
         first:
           name: _Blend
         second: 0.5
+      data:
+        first:
+          name: _Sharpness
+        second: 10
     m_Colors:
       data:
         first:
@@ -172,11 +172,15 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 0.74264705, b: 0.74264705, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 0}
       data:
         first:
           name: _SpecColor
-        second: {r: 0.7205882, g: 0, b: 0, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _RimColor
+        second: {r: 0.26, g: 0.19, b: 0.16, a: 0}
       data:
         first:
           name: _DiffuseTranslucentColor
@@ -185,7 +189,3 @@ Material:
         first:
           name: _ForwardTranslucentColor
         second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _RimColor
-        second: {r: 0.26, g: 0.19, b: 0.16, a: 0}
