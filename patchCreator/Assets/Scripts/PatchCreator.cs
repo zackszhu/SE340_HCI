@@ -7,12 +7,15 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml;
 using Assets.Scripts;
 using UnityEditor;
 using UnityEngine.Networking;
 using Application = UnityEngine.Application;
 using Color = UnityEngine.Color;
+using Debug = UnityEngine.Debug;
 
 
 [Serializable]
@@ -387,10 +390,18 @@ public class PatchCreator : MonoBehaviour {
     }
 
     public void SaveModelByModelName(string modelName, bool withTime = true) {
+        var timeString = DateTime.Now.ToString("yyyyMMddHHmmss");
         string path = withTime
-            ? Application.dataPath + "/Data/" + modelName + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".json"
+            ? Application.dataPath + "/Data/" + modelName + "-" + timeString + ".json"
             : Application.dataPath + "/Data/" + modelName + ".json";
-
+        XmlDocument myXmlDocument = new XmlDocument();
+        myXmlDocument.Load(Application.dataPath + "/Data/models.xml");
+        var node = myXmlDocument.DocumentElement;
+        var newNode = myXmlDocument.CreateElement("Model");
+        newNode.InnerText = modelName + "-" + timeString;
+        newNode.SetAttribute("father", modelName);
+        node.AppendChild(newNode);
+        myXmlDocument.Save(Application.dataPath + "/Data/models.xml");
         SaveModel(path);
     }
 
@@ -412,9 +423,10 @@ public class PatchCreator : MonoBehaviour {
 
     public void Export() {
         GenerateBitMap();
-
-        SaveModelByModelName(ModelName);
-
+        Debug.Log(ModelName);
+        var reg = new Regex(@"(\w+)-\w+");
+        var result = reg.Match(ModelName).Groups[1].ToString();
+        SaveModelByModelName(result != "" ? result : ModelName);
         ExportImage(Application.dataPath + "/Data/gpdf/" );
         string s = EditorUtility.SaveFilePanel("save pdf to print", Application.dataPath, "untitle.pdf", "pdf");
 

@@ -48,6 +48,9 @@ public class ModelScrollLayout : MonoBehaviour {
     public void InitSubLayout(List<GameObject> models) {
         foreach (var model in _models) {
             model.transform.position = _somewhereLeft;
+            if (model.GetComponent<RotationInput>()) {
+                model.GetComponent<RotationInput>().enabled = false;
+            }
         }
         _models = models;
         _cursor = 0;

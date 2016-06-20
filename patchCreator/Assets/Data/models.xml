@@ -1,8 +1,10 @@
 <ModelList>
-	<Model>cat</Model>
-    <Model>windmill</Model>
-    <Model>plane_color1</Model>
-
-    <Model father="windmill">fengche-20160618120422</Model>
-    <Model father="plane_color1">plane_color1</Model>
+  <Model>cat</Model>
+  <Model>windmill</Model>
+  <Model>plane_color1</Model>
+  <Model father="windmill">windmill-20160620080425</Model>
+  <Model father="plane_color1">plane_color1-20160620021427-20160620085246</Model>
+  <Model father="plane_color1">plane_color1-20160620032937</Model>
+  <Model father="plane_color1">plane_color1-20160620042054</Model>
+  <Model father="plane_color1">plane_color1-20160620104645</Model>
 </ModelList>
