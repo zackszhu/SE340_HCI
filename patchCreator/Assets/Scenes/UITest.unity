@@ -3170,7 +3170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d07aa6e0e8af374db9c02e730f2a507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZoomSpeed: 10
+  ZoomSpeed: 2
   Model: {fileID: 2068097724}
   CanZoom: 0
 --- !u!1 &1269060843

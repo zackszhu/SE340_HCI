@@ -172,7 +172,7 @@ namespace Assets.Scripts {
                 brush.TranslateTransform(dst_x1, dst_y1);
                 brush.ScaleTransform(scale, scale);
                 if (sin_angle > 0)
-                    brush.RotateTransform(-(float)(180.0 * Math.Acos(cos_angle) / Math.PI));
+                    brush.RotateTransform((float)(180.0 * Math.Acos(cos_angle) / Math.PI));
                 else
                     brush.RotateTransform(-(float)(180.0 * Math.Acos(cos_angle) / Math.PI));
                 brush.TranslateTransform(-src_x1, -src_y1);

@@ -30,7 +30,7 @@ public class CameraInput : MonoBehaviour {
     private void SetZoom() {
         if (CanZoom && Input.GetAxis("Mouse ScrollWheel") != 0f) {
             // _camera.fieldOfView = _camera.fieldOfView - Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed;
-            Model.GetComponent<ModelScrollLayout>().Selected.transform.position -= new Vector3(0, 0, ZoomSpeed) * Mathf.Sign(Input.GetAxis("Mouse ScrollWheel"));
+            Model.GetComponent<ModelScrollLayout>().Selected.transform.localScale += new Vector3(ZoomSpeed, ZoomSpeed, ZoomSpeed) * Mathf.Sign(Input.GetAxis("Mouse ScrollWheel"));
             //Model.position -= new Vector3(0, 0, ZoomSpeed);
         }
     }
